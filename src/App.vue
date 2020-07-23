@@ -1,28 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <p>{{ $t("result") }}</p>
+    <p>{{ $t("test", ["Vasya", "kek"]) }}</p>
+    <select v-model="lang" @change="changeLocale">
+      <option value="ru">ru</option>
+      <option value="en">en</option>
+    </select>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import { asyncSetLocale } from "./utils";
 
 export default {
   name: "App",
-  components: {
-    HelloWorld
-  }
+  data() {
+    return {
+      lang: localStorage.getItem("lang"),
+    };
+  },
+  methods: {
+    changeLocale() {
+      localStorage.setItem("lang", this.lang);
+
+      asyncSetLocale();
+    },
+  },
 };
 </script>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
